@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsonite Mobile Application</title>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
+    <style>
+        /* Reset and Global Styles */
+        :root {
+            /* Define Inter as the primary font */
+            font-family: 'Inter', sans-serif;
+            /* Define color variables for easier theming/changes */
+            --color-primary: #069f25;
+            --color-primary-hover: #00bd10;
+            --color-dark-text: #01104b;
+            --color-light-text: #ffffff;
+            --color-download-text: #444444;
+            --color-note-text: #000000;
+            --color-note-bg: rgba(252, 252, 252, 0.9);
+            --color-glass-bg: rgba(255, 255, 255, 0.15);
+            --color-grid-bg: white;
+            --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.2);
+            --shadow-heavy: 0 8px 20px rgba(0, 0, 0, 0.4);
+            --radius-default: 20px;
+            --radius-small: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(50%);
+        }
+
+        /* Glassmorphism Container (Main Header Area) */
+        .glass-effect {
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            background: var(--color-glass-bg);
+            border-radius: var(--radius-default);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 600px; 
+            width: 90%;
+            margin-bottom: 1.5rem; /* Add space between header and download cards */
+        }
+
+        .glass-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        /* --- NEW: Container for multiple download cards --- */
+        .download-cards-wrapper {
+            display: flex; /* Enable Flexbox */
+            flex-direction: row; /* Default to row for desktop */
+            gap: 20px; /* Space between cards */
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 760px; /* Allow space for two 350px cards plus gap */
+            margin: 0 auto;
+        }
+        /* --- END NEW --- */
+
+        /* Grid App Container (Download Box) */
+        .gridapp {
+            background: var(--color-grid-bg);
+            border-radius: var(--radius-default);
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 350px; /* Constrain the inner box width */
+            /* Removed margin: 1.5rem 0 1rem 0 to let the new parent wrapper manage spacing */
+            text-align: center; /* Ensure content is centered within the card */
+        }
+        
+        /* Centered Container Wrapper */
+        .container-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            color: var(--color-light-text);
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Typography */
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--color-light-text);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            color: #eeeeee;
+            margin-bottom: 0; /* Adjusted since the glass-effect margin handles spacing now */
+        }
+
+        .logo {
+            width: 100px; /* Slightly reduced logo size for card */
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.6rem; /* Slightly reduced heading for card */
+            color: var(--color-dark-text);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        /* General content paragraph (used for header text) */
+        p {
+            font-size: 1.2rem;
+            color: #f0f0f0; 
+            margin-bottom: 1.5rem;
+        }
+
+        .downloadtxt {
+            font-size: 1.1rem; /* Slightly reduced download text size */
+            color: var(--color-download-text);
+            margin-bottom: 1.5rem;
+            min-height: 40px; /* Add min height to prevent content jump if text wraps differently */
+        }
+
+        /* Download Button */
+        .download-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--color-primary);
+            color: var(--color-light-text);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-small);
+            transition: background 0.3s ease, transform 0.3s ease;
+            width: 100%; /* Make button full width in the card */
+            max-width: 250px; /* Constrain button width */
+        }
+
+        .download-button:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Note Section */
+        .note {
+            font-size: 0.9rem;
+            color: var(--color-note-text);
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--color-note-bg);
+            border-radius: var(--radius-small);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* --- Responsiveness: Mobile First Adjustments --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1.1rem;
+            }
+            
+            .glass-effect, .note {
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            /* Change download cards to stack vertically on smaller screens */
+            .download-cards-wrapper {
+                flex-direction: column; 
+                gap: 1.5rem;
+            }
+            
+            .gridapp {
+                padding: 1.5rem;
+                max-width: 350px; /* Max width for consistency */
+                width: 90%; /* Responsive width for card */
+            }
+        }
+        
+        @media (max-width: 480px) {
+             header h1 {
+                font-size: 1.7rem;
+            }
+            /* Button is already full width with max-width, no need for display: block here */
+            .download-button {
+                max-width: none; /* Let button stretch to 100% of card width on tiny screens */
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="https://cdn.pixabay.com/video/2024/04/16/208160_tiny.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // Select the video element
+        const video = document.querySelector('.background-video');
+    
+        // Set the playback speed to 0.7 (70% of normal speed)
+        // Check if video is loaded before setting playbackRate
+        video.onloadeddata = () => {
+             video.playbackRate = 0.7;
+        };
+    </script>
+
+    <div class="container-wrapper">
+        <div class="glass-effect">
+            <header>
+                <h1>Samsonite Mobile Application</h1>
+                <p>Download the latest APK for Samsonite apps below</p>
+            </header>
+        </div>
+
+        <div class="download-cards-wrapper">
+            
+            <div class="gridapp">
+                <img src="logo/samsonite_rdc_logo.png" alt="EasyCloud WMS UAT App Logo" class="logo">
+                <h3>Samsonite RDC</h3>
+                <p class="downloadtxt">Download the latest RDC APK file below.</p>
+                <a href="download/Samsonite _RDC.apk" class="download-button">Download APK </a>
+            </div>
+
+            <div class="gridapp">
+                <img src="logo/samsonite_fsc_logo.png" alt="EasyCloud WMS Production App Logo" class="logo">
+                <h3>Samsonite FSC</h3>
+                <p class="downloadtxt">Download the latest FSC APK file below.</p>
+                <a href="download/Samsonite_FSC.apk" class="download-button">Download APK </a>
+            </div>
+
+            <div class="gridapp">
+                <img src="logo/samsonite_rmscan_logo.png" alt="EasyCloud WMS Production App Logo" class="logo">
+                <h3>Samsonite RMScanner</h3>
+                <p class="downloadtxt">Download the latest RM APK file below.</p>
+                <a href="download/Samsonite_RM_Scaner.apk" class="download-button">Download APK </a>
+            </div>
+
+        </div>
+        <p class="note">
+            Note: Installing an APK will replace the existing version of that build.<br>
+            Please ensure you have backed up any necessary local data before proceeding.
+        </p>
+    </div>
+
+</body>
+</html>
