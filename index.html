@@ -61,7 +61,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             max-width: 600px; 
             width: 90%;
-            margin-bottom: 1.5rem; /* Add space between header and download cards */
+            margin-bottom: 1.5rem;
         }
 
         .glass-effect:hover {
@@ -69,18 +69,18 @@
             box-shadow: var(--shadow-heavy);
         }
         
-        /* --- NEW: Container for multiple download cards --- */
+        /* ⭐️ MODIFIED: Responsive Grid Container (2x2 on desktop) */
         .download-cards-wrapper {
-            display: flex; /* Enable Flexbox */
-            flex-direction: row; /* Default to row for desktop */
-            gap: 20px; /* Space between cards */
-            justify-content: center;
-            align-items: flex-start;
+            display: grid; 
+            /* On large screens, create columns that are at least 300px wide. 
+               This ensures two cards fit side-by-side until the screen is too narrow. */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             width: 100%;
-            max-width: 760px; /* Allow space for two 350px cards plus gap */
+            max-width: 700px; /* Max width to contain the two-column layout neatly */
             margin: 0 auto;
         }
-        /* --- END NEW --- */
+        /* ⭐️ END MODIFIED */
 
         /* Grid App Container (Download Box) */
         .gridapp {
@@ -90,9 +90,11 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             transition: box-shadow 0.3s ease;
             width: 100%;
-            max-width: 350px; /* Constrain the inner box width */
-            /* Removed margin: 1.5rem 0 1rem 0 to let the new parent wrapper manage spacing */
-            text-align: center; /* Ensure content is centered within the card */
+            text-align: center;
+        }
+        
+        .gridapp:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
         
         /* Centered Container Wrapper */
@@ -121,23 +123,22 @@
         header p {
             font-size: 1.3rem;
             color: #eeeeee;
-            margin-bottom: 0; /* Adjusted since the glass-effect margin handles spacing now */
+            margin-bottom: 0;
         }
 
         .logo {
-            width: 100px; /* Slightly reduced logo size for card */
+            width: 100px;
             height: auto;
             margin-bottom: 1rem;
         }
 
         h3 {
-            font-size: 1.6rem; /* Slightly reduced heading for card */
+            font-size: 1.6rem;
             color: var(--color-dark-text);
             font-weight: 600;
             margin-bottom: 0.8rem;
         }
         
-        /* General content paragraph (used for header text) */
         p {
             font-size: 1.2rem;
             color: #f0f0f0; 
@@ -145,10 +146,10 @@
         }
 
         .downloadtxt {
-            font-size: 1.1rem; /* Slightly reduced download text size */
+            font-size: 1.1rem;
             color: var(--color-download-text);
             margin-bottom: 1.5rem;
-            min-height: 40px; /* Add min height to prevent content jump if text wraps differently */
+            min-height: 40px; /* Keeps card height consistent if text wraps differently */
         }
 
         /* Download Button */
@@ -162,8 +163,8 @@
             text-decoration: none;
             border-radius: var(--radius-small);
             transition: background 0.3s ease, transform 0.3s ease;
-            width: 100%; /* Make button full width in the card */
-            max-width: 250px; /* Constrain button width */
+            width: 100%;
+            max-width: 250px;
         }
 
         .download-button:hover {
@@ -199,26 +200,24 @@
                 width: 95%;
             }
             
-            /* Change download cards to stack vertically on smaller screens */
+            /* ⭐️ MODIFIED: Force single column on tablets and mobile phones */
             .download-cards-wrapper {
-                flex-direction: column; 
+                grid-template-columns: 1fr; 
                 gap: 1.5rem;
             }
+            /* ⭐️ END MODIFIED */
             
             .gridapp {
                 padding: 1.5rem;
-                max-width: 350px; /* Max width for consistency */
-                width: 90%; /* Responsive width for card */
             }
         }
         
         @media (max-width: 480px) {
-             header h1 {
+            header h1 {
                 font-size: 1.7rem;
             }
-            /* Button is already full width with max-width, no need for display: block here */
             .download-button {
-                max-width: none; /* Let button stretch to 100% of card width on tiny screens */
+                max-width: none;
             }
         }
         
@@ -253,24 +252,31 @@
         <div class="download-cards-wrapper">
             
             <div class="gridapp">
-                <img src="logo/samsonite_rdc_logo.png" alt="EasyCloud WMS UAT App Logo" class="logo">
+                <img src="logo/samsonite_rdc_logo.png" alt="Samsonite RDC App Logo" class="logo">
                 <h3>Samsonite RDC</h3>
                 <p class="downloadtxt">Download the latest RDC APK file below.</p>
                 <a href="download/Samsonite _RDC.apk" class="download-button">Download APK </a>
             </div>
 
             <div class="gridapp">
-                <img src="logo/samsonite_fsc_logo.png" alt="EasyCloud WMS Production App Logo" class="logo">
+                <img src="logo/samsonite_fsc_logo.png" alt="Samsonite FSC App Logo" class="logo">
                 <h3>Samsonite FSC</h3>
                 <p class="downloadtxt">Download the latest FSC APK file below.</p>
                 <a href="download/Samsonite_FSC.apk" class="download-button">Download APK </a>
             </div>
 
             <div class="gridapp">
-                <img src="logo/samsonite_rmscan_logo.png" alt="EasyCloud WMS Production App Logo" class="logo">
+                <img src="logo/samsonite_rmscan_logo.png" alt="Samsonite RMScanner App Logo" class="logo">
                 <h3>Samsonite RMScanner</h3>
                 <p class="downloadtxt">Download the latest RM APK file below.</p>
                 <a href="download/Samsonite_RM_Scaner.apk" class="download-button">Download APK </a>
+            </div>
+
+            <div class="gridapp">
+                <img src="logo/samsonite_rm_fsc_logo.png" alt="Samsonite RM-FSC App Logo" class="logo">
+                <h3>Samsonite </br> RM-FSC</h3>
+                <p class="downloadtxt">Download the latest RM-FSC APK file below.</p>
+                <a href="download/Samsonite_RM_FSC.apk" class="download-button">Download APK </a>
             </div>
 
         </div>
