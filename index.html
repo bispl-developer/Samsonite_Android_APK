@@ -1,290 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samsonite Mobile Application</title>
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    
-    <style>
-        /* Reset and Global Styles */
-        :root {
-            /* Define Inter as the primary font */
-            font-family: 'Inter', sans-serif;
-            /* Define color variables for easier theming/changes */
-            --color-primary: #069f25;
-            --color-primary-hover: #00bd10;
-            --color-dark-text: #01104b;
-            --color-light-text: #ffffff;
-            --color-download-text: #444444;
-            --color-note-text: #000000;
-            --color-note-bg: rgba(252, 252, 252, 0.9);
-            --color-glass-bg: rgba(255, 255, 255, 0.15);
-            --color-grid-bg: white;
-            --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.2);
-            --shadow-heavy: 0 8px 20px rgba(0, 0, 0, 0.4);
-            --radius-default: 20px;
-            --radius-small: 8px;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body, html {
-            height: 100%;
-        }
+<title>Samsonite Mobile Applications</title>
 
-        /* Background Video */
-        .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            filter: brightness(50%);
-        }
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        /* Glassmorphism Container (Main Header Area) */
-        .glass-effect {
-            backdrop-filter: blur(10px) saturate(150%);
-            -webkit-backdrop-filter: blur(10px) saturate(150%);
-            background: var(--color-glass-bg);
-            border-radius: var(--radius-default);
-            padding: 2rem;
-            box-shadow: var(--shadow-light);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            max-width: 600px; 
-            width: 90%;
-            margin-bottom: 1.5rem;
-        }
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-        .glass-effect:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
-        }
-        
-        /* ⭐️ MODIFIED: Responsive Grid Container (2x2 on desktop) */
-        .download-cards-wrapper {
-            display: grid; 
-            /* On large screens, create columns that are at least 300px wide. 
-               This ensures two cards fit side-by-side until the screen is too narrow. */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 700px; /* Max width to contain the two-column layout neatly */
-            margin: 0 auto;
-        }
-        /* ⭐️ END MODIFIED */
+<!-- Inter Font -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
-        /* Grid App Container (Download Box) */
-        .gridapp {
-            background: var(--color-grid-bg);
-            border-radius: var(--radius-default);
-            padding: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            transition: box-shadow 0.3s ease;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .gridapp:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-        }
-        
-        /* Centered Container Wrapper */
-        .container-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            color: var(--color-light-text);
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
+<style>
 
-        /* Typography */
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--color-light-text);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
+:root{
+--brand:#00a651;
+--brand-dark:#008d44;
+}
 
-        header p {
-            font-size: 1.3rem;
-            color: #eeeeee;
-            margin-bottom: 0;
-        }
+body{
+font-family:'Inter',sans-serif;
+transition:0.3s;
+}
 
-        .logo {
-            width: 100px;
-            height: auto;
-            margin-bottom: 1rem;
-        }
+/* Dark mode */
+.dark-mode{
+background:#0f172a;
+color:white;
+}
 
-        h3 {
-            font-size: 1.6rem;
-            color: var(--color-dark-text);
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-        }
-        
-        p {
-            font-size: 1.2rem;
-            color: #f0f0f0; 
-            margin-bottom: 1.5rem;
-        }
+/* Background video */
+.background-video{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-1;
+filter:brightness(50%);
+}
 
-        .downloadtxt {
-            font-size: 1.1rem;
-            color: var(--color-download-text);
-            margin-bottom: 1.5rem;
-            min-height: 40px; /* Keeps card height consistent if text wraps differently */
-        }
+/* Glass header */
+.glass{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+border-radius:20px;
+padding:35px;
+color:white;
+}
 
-        /* Download Button */
-        .download-button {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: var(--color-primary);
-            color: var(--color-light-text);
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: var(--radius-small);
-            transition: background 0.3s ease, transform 0.3s ease;
-            width: 100%;
-            max-width: 250px;
-        }
+/* Cards */
+.app-card{
+border-radius:18px;
+transition:0.3s;
+}
 
-        .download-button:hover {
-            background: var(--color-primary-hover);
-            transform: translateY(-3px);
-        }
+.app-card:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
 
-        /* Note Section */
-        .note {
-            font-size: 0.9rem;
-            color: var(--color-note-text);
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            background: var(--color-note-bg);
-            border-radius: var(--radius-small);
-            max-width: 500px;
-            width: 90%;
-        }
+.logo{
+width:80px;
+}
 
-        /* --- Responsiveness: Mobile First Adjustments --- */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
+/* Animated button */
+.download-btn{
+background:var(--brand);
+border:none;
+font-weight:600;
+border-radius:10px;
+padding:10px 18px;
+transition:0.3s;
+}
 
-            header p {
-                font-size: 1.1rem;
-            }
-            
-            .glass-effect, .note {
-                padding: 1.5rem;
-                width: 95%;
-            }
-            
-            /* ⭐️ MODIFIED: Force single column on tablets and mobile phones */
-            .download-cards-wrapper {
-                grid-template-columns: 1fr; 
-                gap: 1.5rem;
-            }
-            /* ⭐️ END MODIFIED */
-            
-            .gridapp {
-                padding: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.7rem;
-            }
-            .download-button {
-                max-width: none;
-            }
-        }
-        
-    </style>
+.download-btn:hover{
+background:var(--brand-dark);
+transform:scale(1.05);
+}
+
+.download-btn.loading{
+pointer-events:none;
+opacity:.8;
+}
+
+/* Progress bar hidden initially */
+.progress{
+display:none;
+height:6px;
+margin-top:10px;
+}
+
+/* Version badge */
+.version{
+font-size:13px;
+background:#e9f9f0;
+color:#008d44;
+padding:4px 10px;
+border-radius:20px;
+}
+
+/* File size */
+.filesize{
+font-size:13px;
+color:#6b7280;
+}
+
+/* Toggle switch */
+.theme-toggle{
+position:fixed;
+top:20px;
+right:20px;
+z-index:999;
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <video class="background-video" autoplay muted loop playsinline>
-        <source src="https://cdn.pixabay.com/video/2024/04/16/208160_tiny.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<!-- Theme Toggle -->
+<div class="theme-toggle">
+<button class="btn btn-light" onclick="toggleTheme()">
+<i class="bi bi-moon"></i>
+</button>
+</div>
 
-    <script>
-        // Select the video element
-        const video = document.querySelector('.background-video');
-    
-        // Set the playback speed to 0.7 (70% of normal speed)
-        // Check if video is loaded before setting playbackRate
-        video.onloadeddata = () => {
-             video.playbackRate = 0.7;
-        };
-    </script>
+<!-- Background Video -->
+<video class="background-video" autoplay muted loop playsinline>
+<source src="https://cdn.pixabay.com/video/2024/04/16/208160_tiny.mp4" type="video/mp4">
+</video>
 
-    <div class="container-wrapper">
-        <div class="glass-effect">
-            <header>
-                <h1>Samsonite Mobile Application</h1>
-                <p>Download the latest APK for Samsonite apps below</p>
-            </header>
-        </div>
+<div class="container py-5">
 
-        <div class="download-cards-wrapper">
-            
-            <div class="gridapp">
-                <img src="logo/samsonite_rdc_logo.png" alt="Samsonite RDC App Logo" class="logo">
-                <h3>Samsonite RDC</h3>
-                <p class="downloadtxt">Download the latest RDC APK file below.</p>
-                <a href="download/Samsonite _RDC.apk" class="download-button">Download APK </a>
-            </div>
+<!-- Header -->
+<div class="row justify-content-center mb-4">
+<div class="col-lg-7 text-center glass">
 
-            <div class="gridapp">
-                <img src="logo/samsonite_fsc_logo.png" alt="Samsonite FSC App Logo" class="logo">
-                <h3>Samsonite FSC</h3>
-                <p class="downloadtxt">Download the latest FSC APK file below.</p>
-                <a href="download/Samsonite_FSC.apk" class="download-button">Download APK </a>
-            </div>
+<h1 class="fw-bold">Samsonite Mobile Apps</h1>
+<p>Download latest APK builds</p>
 
-            <div class="gridapp">
-                <img src="logo/samsonite_rmscan_logo.png" alt="Samsonite RMScanner App Logo" class="logo">
-                <h3>Samsonite RMScanner</h3>
-                <p class="downloadtxt">Download the latest RM APK file below.</p>
-                <a href="download/Samsonite_RM_Scaner.apk" class="download-button">Download APK </a>
-            </div>
+<button class="btn btn-outline-light btn-sm mt-2"
+data-bs-toggle="modal"
+data-bs-target="#installGuide">
+Install Guide
+</button>
 
-            <div class="gridapp">
-                <img src="logo/samsonite_rm_fsc_logo.png" alt="Samsonite RM-FSC App Logo" class="logo">
-                <h3>Samsonite </br> RM-FSC</h3>
-                <p class="downloadtxt">Download the latest RM-FSC APK file below.</p>
-                <a href="download/Samsonite_RM_FSC.apk" class="download-button">Download APK </a>
-            </div>
+</div>
+</div>
 
-        </div>
-        <p class="note">
-            Note: Installing an APK will replace the existing version of that build.<br>
-            Please ensure you have backed up any necessary local data before proceeding.
-        </p>
-    </div>
+<!-- Apps -->
+<div class="row g-4">
+
+<!-- APP CARD -->
+<div class="col-lg-3 col-md-6">
+
+<div class="card app-card text-center p-3">
+
+<img src="logo/samsonite_rdc_logo.png" class="logo mx-auto mb-2">
+
+<h5>Samsonite RDC</h5>
+
+<span class="version">Version 1.3</span>
+
+<p class="filesize mt-2">APK Size: 18 MB</p>
+
+<button class="btn download-btn mt-2"
+onclick="downloadApp(this,'download/Samsonite _RDC.apk')">
+
+<i class="bi bi-download"></i> Download
+</button>
+
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated"
+style="width:0%"></div>
+</div>
+
+</div>
+</div>
+
+
+<!-- APP 2 -->
+<div class="col-lg-3 col-md-6">
+
+<div class="card app-card text-center p-3">
+
+<img src="logo/samsonite_fsc_logo.png" class="logo mx-auto mb-2">
+
+<h5>Samsonite FSC</h5>
+
+<span class="version">Version 1.4</span>
+
+<p class="filesize mt-2">APK Size: 13 MB</p>
+
+<button class="btn download-btn mt-2"
+onclick="downloadApp(this,'download/Samsonite_FSC.apk')">
+
+<i class="bi bi-download"></i> Download
+</button>
+
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated"
+style="width:0%"></div>
+</div>
+
+</div>
+</div>
+
+
+<!-- APP 3 -->
+<div class="col-lg-3 col-md-6">
+
+<div class="card app-card text-center p-3">
+
+<img src="logo/samsonite_rmscan_logo.png" class="logo mx-auto mb-2">
+
+<h5>RM Scanner</h5>
+
+<span class="version">Version 1.5</span>
+
+<p class="filesize mt-2">APK Size: 10 MB</p>
+
+<button class="btn download-btn mt-2"
+onclick="downloadApp(this,'download/Samsonite_RM_Scaner.apk')">
+
+<i class="bi bi-download"></i> Download
+</button>
+
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated"
+style="width:0%"></div>
+</div>
+
+</div>
+</div>
+
+
+<!-- APP 4 -->
+<div class="col-lg-3 col-md-6">
+
+<div class="card app-card text-center p-3">
+
+<img src="logo/samsonite_rm_fsc_logo.png" class="logo mx-auto mb-2">
+
+<h5>RM FSC</h5>
+
+<span class="version">Version 1.5</span>
+
+<p class="filesize mt-2">APK Size: 16 MB</p>
+
+<button class="btn download-btn mt-2"
+onclick="downloadApp(this,'download/Samsonite_RM_FSC.apk')">
+
+<i class="bi bi-download"></i> Download
+</button>
+
+<div class="progress">
+<div class="progress-bar progress-bar-striped progress-bar-animated"
+style="width:0%"></div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- Install Guide Modal -->
+
+<div class="modal fade" id="installGuide">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">APK Installation Guide</h5>
+<button class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+
+<ol>
+<li>Download APK file.</li>
+<li>Open the downloaded file.</li>
+<li>Enable <b>Install from Unknown Sources</b>.</li>
+<li>Tap <b>Install</b>.</li>
+<li>Open the app after installation.</li>
+</ol>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- Scripts -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+/* Theme toggle */
+
+function toggleTheme(){
+document.body.classList.toggle("dark-mode");
+}
+
+/* Download animation + progress */
+
+function downloadApp(btn,url){
+
+const progress=btn.parentElement.querySelector(".progress");
+const bar=progress.querySelector(".progress-bar");
+
+progress.style.display="block";
+btn.classList.add("loading");
+
+let width=0;
+
+let interval=setInterval(function(){
+
+width+=10;
+bar.style.width=width+"%";
+
+if(width>=100){
+
+clearInterval(interval);
+
+btn.innerHTML='<i class="bi bi-check"></i> Downloaded';
+
+setTimeout(()=>{
+window.location=url;
+},500);
+
+}
+
+},150);
+
+}
+
+</script>
 
 </body>
 </html>
